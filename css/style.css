@@ -43,10 +43,7 @@
 	padding: 1rem;
 }
 
-.ai-player {
-	border: red solid 1px;
-}
-
+/* https://css-tricks.com/snippets/css/typewriter-effect/ */
 .ai-typewriter p {
 	width: max-content;
 	overflow: hidden; /* Ensure content is not revealed before animation */

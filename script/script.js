@@ -11,6 +11,7 @@ const gameBoard = (() => {
 
 	const setSquare = (index, sign) => {
 		board[index] = sign;
+		console.log(board)
 	}
 
 	const getSquare = (index) => {
@@ -34,17 +35,23 @@ const displayController = (() => {
 		square.addEventListener('click', e => {
 			// IF PLAYER's TURN THEN
 			// PLAY ROUND
+			gameBoard.setSquare(e.target.getAttribute('square'), 'x')
+			updateGameBoard();
 		})
 	})
 
 	const updateGameBoard = () => {
 		// ITERATE THRU board ARRAY
 		// CHANGE HTML TO DISPLAY IT
+		for(let i = 0; i < squares.length; i++) {
+			squares[i].textContent = gameBoard.getSquare(i)
+		}
 	}
 })();
 
 // IIFE to set up game-state-related functions
 const gameController = (() => {
+
 	const playRound = (index) => {
 		// SET GIVEN INDEX TO X OR O
 		// CHECK FOR WINS
