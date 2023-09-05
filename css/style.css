@@ -11,11 +11,14 @@
 	justify-content: center;
 	align-items: center;
 	background-color: rgb(203, 203, 203);
-
 }
 
-.grid-container {
-	width: 100vw;
+.content {
+	display: flex;
+}
+
+.game-container {
+	width: 70vw;
 	height:fit-content;
 	display: flex;
 	justify-content: center;
@@ -23,14 +26,45 @@
 	padding-top: 20px;
 }
 
-.game-grid {
+.game-board {
 	display: grid;
 	grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 	gap: 10px;
 }
 
-.grid-area {
+.square {
 	height: 150px;
 	width: 150px;
 	background-color: rgb(203, 203, 203);
+}
+
+.ai-container {
+	width:fit-content;
+	padding: 1rem;
+}
+
+.ai-player {
+	border: red solid 1px;
+}
+
+.ai-typewriter p {
+	width: max-content;
+	overflow: hidden; /* Ensure content is not revealed before animation */
+	border-right: .15em solid black; /* Typewriter cursor */
+	white-space: nowrap; /* Keeps content on single line */
+	margin: 0 auto; /* Gives scrolling effect as the typing happens */
+	letter-spacing: .15em; /* Adjust as needed */
+	animation: typing 3.5s steps(40,end), blink-caret .5s step-end infinite;
+}
+
+/* Typing effect */
+@keyframes typing {
+	from { width: 0 }
+	to { width: 100% }
+}
+
+/* Blinking typewriter cursor */
+@keyframes blink-caret {
+	from, to { border-color: transparent }
+	50% { border-color: black }
 }
