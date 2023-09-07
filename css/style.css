@@ -13,8 +13,16 @@
 	background-color: rgb(203, 203, 203);
 }
 
+.score-container {
+	display: inline-flex;
+	justify-content: center;
+	font-size: 40px;
+	width: 100vw;
+}
+
 .content {
 	display: flex;
+	flex-direction: row;
 }
 
 .game-container {
@@ -51,7 +59,7 @@
 	white-space: nowrap; /* Keeps content on single line */
 	margin: 0 auto; /* Gives scrolling effect as the typing happens */
 	letter-spacing: .15em; /* Adjust as needed */
-	animation: typing 3.5s steps(40,end), blink-caret .5s step-end infinite;
+	animation: typing 2.0s steps(25,end), blink-caret .5s step-end infinite;
 }
 
 /* Typing effect */
