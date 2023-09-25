@@ -13,7 +13,6 @@ const gameBoard = (() => {
 	// Get and Set functions so we don't directly mutate board
 	const setSquare = (index, sign) => {
 		board[index] = sign;
-		console.log(board)
 	}
 	const getSquare = (index) => {
 		return board[index];
@@ -35,6 +34,7 @@ const displayController = (() => {
 	const squares = Array.from(document.getElementsByClassName('square'))
 	const playerScoreText = document.getElementById('player-score')
 	const aiScoreText = document.getElementById('ai-score');
+	const resetButton = document.getElementById('reset-button')
 
 	// Iterate through all square elements
 	squares.forEach(square => {
@@ -49,11 +49,19 @@ const displayController = (() => {
 		})
 	})
 
+	resetButton.addEventListener('click', () => {
+		gameBoard.resetBoard();
+		updateGameBoard();
+	})
+
 	const updateGameBoard = () => {
 		// ITERATE THRU board ARRAY
 		// CHANGE HTML TO DISPLAY IT
 		for(let i = 0; i < squares.length; i++) {
 			squares[i].textContent = gameBoard.getSquare(i)
+			if(squares[i].textContent != '') {
+				squares[i].classList.remove('free')
+			}
 		}
 	}
 
@@ -68,19 +76,11 @@ const displayController = (() => {
 
 // IIFE to set up game-state-related functions
 const gameController = (() => {
-	// Create Human Player with 'X'
 	const player = Player("X");
-	// Create AI Player with 'O'
 	const ai = Player("O");
 	// Initiate first game state:
-	// First round
 	let round = 1;
-	// Game not over
 	let isOver = false;
-	// Both Players' scores
-	let playerScore = 0;
-	let aiScore = 0;
-	// Human player's turn
 	let playerTurn = true;
 
 	if(!playerTurn) {
@@ -92,6 +92,11 @@ const gameController = (() => {
 	// Play a round when a square is selected by Human
 	const playRound = (index) => {
 		// SET GIVEN INDEX TO X OR O
+		if(round === 9) { 
+			gameOver() 
+		}
+		round++;
+		
 		if(playerTurn) {
 			humanMove(index)
 			setTimeout(() => {
@@ -99,12 +104,6 @@ const gameController = (() => {
 			}, 1500)
 		}
 		// CHECK FOR ROUND 9
-		if(round === 9) { 
-			gameOver() 
-		}
-		round++;
-		// NEXT PLAYER TURN
-		
 	}
 
 	// Take selected square to play human move
@@ -147,10 +146,5 @@ const gameController = (() => {
 		isOver = true;
 	}
 
-	const resetGame = () => {
-		// Reset Board to blank
-		// Set Game Over state to false
-	}
-
-	return { playRound, playerScore, aiScore, playerTurn }
+	return { playRound, playerTurn }
 })();

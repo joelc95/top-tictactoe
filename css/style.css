@@ -40,6 +40,10 @@
 	gap: 10px;
 }
 
+.free {
+	cursor: pointer;
+}
+
 .square {
 	height: 150px;
 	width: 150px;
@@ -73,4 +77,11 @@
 @keyframes blink-caret {
 	from, to { border-color: transparent }
 	50% { border-color: black }
+}
+
+.lower-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100px;
 }
