@@ -23,7 +23,6 @@ const gameBoard = (() => {
 		for(let i = 0; i < board.length; i++) {
 			board[i] = '';
 		}
-		displayController.updateGameBoard();
 	}
 
 	return { board, setSquare, getSquare, resetBoard }
@@ -50,17 +49,19 @@ const displayController = (() => {
 	})
 
 	resetButton.addEventListener('click', () => {
+		gameController.resetGame();
 		gameBoard.resetBoard();
 		updateGameBoard();
 	})
 
+	// Update DOM elements based on board array
 	const updateGameBoard = () => {
-		// ITERATE THRU board ARRAY
-		// CHANGE HTML TO DISPLAY IT
 		for(let i = 0; i < squares.length; i++) {
 			squares[i].textContent = gameBoard.getSquare(i)
 			if(squares[i].textContent != '') {
 				squares[i].classList.remove('free')
+			} else {
+				squares[i].classList.add('free')
 			}
 		}
 	}
@@ -74,7 +75,7 @@ const displayController = (() => {
 
 })();
 
-// IIFE to set up game-state-related functions
+// IIFE to set up game state-related functions
 const gameController = (() => {
 	const player = Player("X");
 	const ai = Player("O");
@@ -83,27 +84,21 @@ const gameController = (() => {
 	let isOver = false;
 	let playerTurn = true;
 
-	if(!playerTurn) {
-		setTimeout(() => {
-			aiMove()
-		}, 1500)
+	const resetGame = () => {
+		isOver = false;
+		round = 1;
+		playerTurn = true;
 	}
 	
-	// Play a round when a square is selected by Human
+	// Play a round when a square is selected by Human,
+	// then play an ai round
 	const playRound = (index) => {
-		// SET GIVEN INDEX TO X OR O
-		if(round === 9) { 
-			gameOver() 
-		}
-		round++;
-		
 		if(playerTurn) {
 			humanMove(index)
 			setTimeout(() => {
 				aiMove()
 			}, 1500)
 		}
-		// CHECK FOR ROUND 9
 	}
 
 	// Take selected square to play human move
@@ -111,40 +106,24 @@ const gameController = (() => {
 		// If space is free, mark it with 'X'
 		if(gameBoard.board[index] === '') {
 			gameBoard.setSquare(index, player.getSign())
-			playerTurn = !playerTurn
 		}
+		playerTurn = !playerTurn
 	}
 
 	// Randomly select a free space for the ai move
 	const aiMove = () => {
-		// This returns an array of free spaces
+		// If no free moves
 		if(gameBoard.board.filter((e) => e === '').length==0){
 			return
 		}
-		// Roll random number 0-8
-		// if square is not free, re-roll
 		let n = Math.floor(Math.random()*8)
 		while(gameBoard.board[n]!=='') {
 			n = Math.floor(Math.random()*8)
 		} 
-		// Make move with valid n value
 		gameBoard.setSquare(n, ai.getSign())
-		// Update UI
 		displayController.updateGameBoard()
 		playerTurn = !playerTurn
 	}
 
-	const gameOver = () => {
-		//Check for Wins on final move
-
-		//Update score if win
-		displayController.updateScoreline();
-		
-		// Display game result message
-
-		// Game Over state is true
-		isOver = true;
-	}
-
-	return { playRound, playerTurn }
+	return { playRound, playerTurn, resetGame }
 })();
